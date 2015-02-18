@@ -194,7 +194,34 @@
 	<State name="HALT0">
 		<Goto state="HALT0"/>
 	</State>
-<!--bonr(1000)-->
+<!--bonr(1000) addi: gets the value from memory stored in RY and RZ and the sum goes in to RX-->
+	<State name="BONR0">
+		<Signal name="RegSelLo"/>
+		<Signal name="DrREG"/>
+		<Signal name="LdMAR"/>
+		<Goto state="BONR1"/>
+	</State>
+	<State name="BONR1">
+		<Signal name="DrMEM"/>
+		<Signal name="LdA"/>
+		<Goto state="BONR2"/>
+	</State>
+	<State name="BONR2">
+		<Signal name="RegSelfHi"/>
+		<Signal name="DrREG"/>
+		<Signal name="LdMAR"/>
+		<Goto state="BONR3"/>
+	</State>
+	<State name="BONR3">
+		<Signal name="DrMEM"/>
+		<Signal name="LdB"/>
+		<Goto state="BONR4"/>
+	</State>
+	<State name="BONR4">
+		<Signal name="DrALU"/>
+		<Signal name="WrREG"/>
+		<Goto state="FETCH0"/>
+	</State>
 <!--bono(1001) rewind: starts back from the top of the code goes back to 0x00, but PC will force it to 0x10-->
 	<State name="BONO0">
 		<Signal name="DrPC"/>
