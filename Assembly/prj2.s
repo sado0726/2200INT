@@ -125,13 +125,13 @@ ti_inthandler:	addi	$sp, $sp, -1
 		addi	$a0, $a0, 1	!add to seconds
 		sw	$a0, 0($at)	!store back in to the memory
 		beq	$zero, $zero, end	
-min:		sw	$zero 0($at)	!makes seconds back to zero
+min:		sw	$zero, 0($at)	!makes seconds back to zero
 		lw	$a0, 1($at)	!gets value from minutes
 		beq	$a1, $a0, hr	!check if minutes is 59
 		addi	$a0, $a0, 1	!add to minutes
 		sw	$a0, 1($at)	!store back in to the memory
 		beq	$zero, $zero, end
-hr:		sw	$zero 1($at)	!makes minutes back to zero
+hr:		sw	$zero, 1($at)	!makes minutes back to zero
 		lw	$a0, 2($at)	!gets value from hours
 		addi	$a0, $a0, 1	!add to hours
 		sw	$a0, 2($at)	!store back in to the memory		

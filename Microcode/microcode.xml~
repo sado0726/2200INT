@@ -1,7 +1,4 @@
 <Microcode>
-	<State name ="">
-		<Signal name=""/>
-	</State>
 <!--FetchMacroState - Handle Interrupt -->
 	<State name="FETCH0" onZ="false">
 		<Signal name="OPTest"/>
@@ -199,23 +196,28 @@
 		<Signal name="RegSelLo"/>
 		<Signal name="DrREG"/>
 		<Signal name="LdMAR"/>
+		<Goto state="BONR1"/>
 	</State>
 	<State name="BONR1">
 		<Signal name="DrMEM"/>
 		<Signal name="LdA"/>
+		<Goto state="BONR2"/>
 	</State>
 	<State name="BONR2">
-		<Signal name="RegSelfHi"/>
+		<Signal name="RegSelHi"/>
 		<Signal name="DrREG"/>
 		<Signal name="LdMAR"/>
+		<Goto state="BONR3"/>
 	</State>
 	<State name="BONR3">
 		<Signal name="DrMEM"/>
 		<Signal name="LdB"/>
+		<Goto state="BONR4"/>
 	</State>
 	<State name="BONR4">
 		<Signal name="DrALU"/>
 		<Signal name="WrREG"/>
+		<Goto state="FETCH0"/>
 	</State>
 <!--bono(1001) rewind: starts back from the top of the code goes back to 0x00, but PC will force it to 0x10-->
 	<State name="BONO0">

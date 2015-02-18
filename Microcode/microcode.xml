@@ -1,7 +1,4 @@
 <Microcode>
-	<State name ="">
-		<Signal name=""/>
-	</State>
 <!--FetchMacroState - Handle Interrupt -->
 	<State name="FETCH0" onZ="false">
 		<Signal name="OPTest"/>
@@ -207,7 +204,7 @@
 		<Goto state="BONR2"/>
 	</State>
 	<State name="BONR2">
-		<Signal name="RegSelfHi"/>
+		<Signal name="RegSelHi"/>
 		<Signal name="DrREG"/>
 		<Signal name="LdMAR"/>
 		<Goto state="BONR3"/>
@@ -233,7 +230,7 @@
 		<Signal name="ALUHi"/>
 		<Signal name="DrALU"/>
 		<Signal name="LdPC"/>
-		<Signal name="FETCH0"/>
+		<Goto state="FETCH0"/>
 	</State>
 <!--ei(1010)-->
 	<State name="EI0">
