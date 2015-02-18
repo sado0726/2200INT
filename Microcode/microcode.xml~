@@ -1,4 +1,7 @@
 <Microcode>
+	<State name ="">
+		<Signal name=""/>
+	</State>
 <!--FetchMacroState - Handle Interrupt -->
 	<State name="FETCH0" onZ="false">
 		<Signal name="OPTest"/>
@@ -192,15 +195,29 @@
 		<Goto state="HALT0"/>
 	</State>
 <!--bonr(1000)-->
-<!--bono(1001)-->
+<!--bono(1001) rewind: starts back from the top of the code goes back to 0x00, but PC will force it to 0x10-->
+	<State name="BONO0">
+		<Signal name="DrPC"/>
+		<Signal name="LdA"/>
+		<Signal name="LdB"/>
+		<Goto state="BONO0"/>
+	</State>
+	<State name="BONO1">
+		<Signal name="ALUHi"/>
+		<Signal name="DrALU"/>
+		<Signal name="LdPC"/>
+		<Signal name="BONO1"/>
+	</State>
 <!--ei(1010)-->
 	<State name="EI0">
 		<Signal name="LdEnInt"/>
 		<Signal name="DrEnInt"/>
+		<Goto state="FETCH0"/>
 	</State>	
 <!--di(1011)-->
 	<State name="DI0">
 		<Signal name="LdEnInt"/>
+		<Goto state="FETCH0"/>
 	</State>
 <!--reti(1100)-->
 	<State name="RETI0">
@@ -210,7 +227,51 @@
 		<Signal name="RegSelHi"/>
 		<Signal name="DrReg"/>
 		<Signal name="LdPC"/>
+		<Goto state="FETCH0"/>
 	</State>
-<!--boni(1101)-->
-<!--bonj(1110)-->
+<!--boni(1101) aka push: RY<-RY-1 RX->MEM[RY-1]-->
+	<State name="BONI0">
+		<Signal name="RegSelLo"/>
+		<Signal name="DrREG"/>
+		<Signal name="LdA"/>
+		<Goto state="BONI1"/>
+	</State>
+	<State name ="BONI1">
+		<Signal name="DrOFF"/>
+		<Signal name="LdB"/>
+		<Goto state="BONI2"/>
+	</State>
+	<State name ="BONI2">
+		<Signal name="DrALU"/>
+		<Signal name="LdMAR"/>
+		<Signal name="RegSelLo"/>
+		<Signal name="WrREG"/>
+		<Goto state="BONI3"/>
+	</State>
+	<State name ="BONI3">
+		<Signal name="DrREG"/>
+		<Signal name="WrMEM"/>
+		<Goto state="FETCH0"/>
+	</State>
+<!--bonj(1110) aka pop: RY<-RY+1 RX<-MEM[RY+1]-->
+	<State name="BONJ0">
+		<Signal name="RegSelLo"/>
+		<Signal name="DrREG"/>
+		<Signal name="LdA"/>
+		<Goto state="BONJ1"/>
+	</State>
+	<State name ="BONJ1">
+		<Signal name="ALULo"/>
+		<Signal name="ALUHi"/>
+		<Signal name="DrALU"/>
+		<Signal name="LdMAR"/>
+		<Signal name="RegSelLo"/>
+		<Signal name="WrREG"/>
+		<Goto state="BONI2"/>
+	</State>
+	<State name="BONJ2">
+		<Signal name="DrMEM"/>
+		<Signal name="WrREG"/>
+		<Goto state="FETCH0"/>
+	</State>
 </Microcode>

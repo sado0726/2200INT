@@ -40,7 +40,7 @@ vector0:    .fill 0x00000000 !0
 main:           la $sp, stack           ! Initialize stack pointer
                 lw $sp, 0($sp)          
                 
-                ! Install timer interrupt handler into vector table ASK ABOUT THIS
+                ! Install timer interrupt handler into vector table 
                 la $at, ti_inthandler   !gets the address of the timer interrupt handler
 		la $a0, vector0		!gets the address of the starting point of IVT
 		sw $at, 1($a0)		!stores the address of the interrupt handler at IVT[1]
@@ -97,7 +97,23 @@ factorial:      addi    $sp, $sp, -1    ! push RA
 ti_inthandler:	addi	$sp, $sp, -1
 		sw 	$k0, 0($sp) 	!save the current value of $k0
 		ei			!enable interrupt
-			FIXME		!store all the registers
+
+		boni	$zero, $sp, -1	!store all the registers
+		boni	$at, $sp, -1
+		boni	$v0, $sp, -1
+		boni	$a0, $sp, -1
+		boni	$a1, $sp, -1
+		boni	$a2, $sp, -1
+		boni	$a3, $sp, -1
+		boni	$a4, $sp, -1
+		boni	$s0, $sp, -1
+		boni	$s1, $sp, -1
+		boni	$s2, $sp, -1
+		boni	$s3, $sp, -1
+		boni	$k0, $sp, -1
+		boni	$sp, $sp, -1
+		boni	$fp, $sp, -1
+		boni	$ra, $sp, -1
 
 !interrupt timer		
 		la	$at, seconds	!gets address for seconds
@@ -119,9 +135,25 @@ hr		sw	$zero 1($at)	!makes minutes back to zero
 		lw	$a0, 2($at)	!gets value from hours
 		addi	$a0, $a0, 1	!add to hours
 		sw	$a0, 2($at)	!store back in to the memory		
-end				
-		
-			FIXME		!restore all the registers
+				
+
+end		bonj	$ra, $sp	!restore all the registers
+		bonj	$fp, $sp
+		bonj	$sp, $sp
+		bonj	$k0, $sp
+		bonj	$s3, $sp
+		bonj	$s2, $sp
+		bonj	$s1, $sp
+		bonj	$s0, $sp
+		bonj	$a4, $sp
+		bonj	$a3, $sp
+		bonj	$a2, $sp
+		bonj	$a1, $sp
+		bonj	$a0, $sp
+		bonj	$v0, $sp
+		bonj	$at, $sp
+		bonj	$zero, $sp	
+
 		di			!disable interrupt
 		addi	$sp, $sp, 1	
 		lw 	$k0, 0($sp)	!load the $k0 to jump back
