@@ -1,7 +1,4 @@
 <Microcode>
-	<State name="">
-		<Signal name=""/>
-	</State>
 <!--FetchMacroState - Handle Interrupt -->
 	<State name="FETCH0" onZ="false">
 		<Signal name="OPTest"/>
@@ -9,8 +6,8 @@
 	</State>
 	<State name="FETCH1" onInt="true">
 		<Signal name="DrPC"/>
-		<Signal name="RegSelHigh"/>
-		<Signal name="RegSelLow"/>
+		<Signal name="RegSelHi"/>
+		<Signal name="RegSelLo"/>
 		<Signal name="WrREG"/>
 		<Signal name="LdEnInt"/>
 		<Goto state="FETCH2"/>
@@ -194,4 +191,26 @@
 	<State name="HALT0">
 		<Goto state="HALT0"/>
 	</State>
+<!--bonr(1000)-->
+<!--bono(1001)-->
+<!--ei(1010)-->
+	<State name="EI0">
+		<Signal name="LdEnInt"/>
+		<Signal name="DrEnInt"/>
+	</State>	
+<!--di(1011)-->
+	<State name="DI0">
+		<Signal name="LdEnInt"/>
+	</State>
+<!--reti(1100)-->
+	<State name="RETI0">
+		<Signal name="LdEnInt"/>
+		<Signal name="DrEnInt"/>
+		<Signal name="RegSelLo"/>
+		<Signal name="RegSelHi"/>
+		<Signal name="DrReg"/>
+		<Signal name="LdPC"/>
+	</State>
+<!--boni(1101)-->
+<!--bonj(1110)-->
 </Microcode>
